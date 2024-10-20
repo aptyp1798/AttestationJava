@@ -1,8 +1,7 @@
-import java.io.IOException;
 import java.util.*;
 
 public class StoreLaptop{
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         Set<Laptop> laptopSet = new HashSet<>();
 
         Laptop asus1 = new Laptop(4,500, "Windows", "black");
@@ -26,7 +25,7 @@ public class StoreLaptop{
         criteria.put(2, "memoryHD");
         criteria.put(3, "OS");
         criteria.put(4, "color");
-        criteria.put(5, "Выберите в случае прекращения продолжения настройки фильтра");
+        criteria.put(5, "Применить фильтры");
         criteria.put(0, "Выход");
 
         Map<Integer, Object> filters = new HashMap<>();
