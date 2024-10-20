@@ -1,7 +1,8 @@
+import java.io.IOException;
 import java.util.*;
 
 public class StoreLaptop{
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Set<Laptop> laptopSet = new HashSet<>();
 
         Laptop asus1 = new Laptop(4,500, "Windows", "black");
@@ -25,15 +26,18 @@ public class StoreLaptop{
         criteria.put(2, "memoryHD");
         criteria.put(3, "OS");
         criteria.put(4, "color");
-        criteria.put(0, "Выберите в случае прекращения продолжения настройки фильтра");
+        criteria.put(5, "Выберите в случае прекращения продолжения настройки фильтра");
+        criteria.put(0, "Выход");
 
         Map<Integer, Object> filters = new HashMap<>();
 
-        Set<String> laptopResult = new HashSet<>();
+        while (true) {
 
-        boolean check = true;
-
-        while (check) {
+            System.out.println("Текущие критерии фильтра:");
+            System.out.println("RAM: " + filters.get(1));
+            System.out.println("MemoryHD: " + filters.get(2));
+            System.out.println("OS: " + filters.get(3));
+            System.out.println("Color: " + filters.get(4) + "\n");
 
             System.out.println("Введите цифру, соответствующую критерию: ");
             for (Map.Entry<Integer, String> entry : criteria.entrySet()) {
@@ -42,10 +46,6 @@ public class StoreLaptop{
 
             int num = sc.nextInt();
             sc.nextLine();
-
-            if (num == 0) {
-                check = false;
-            }
 
             switch (num) {
                 case 1:
@@ -68,36 +68,45 @@ public class StoreLaptop{
                     String filterColor = sc.nextLine();
                     filters.put(4, filterColor);
                     break;
+                case 5:
+                    Set<Laptop> laptopResult = new HashSet<>(laptopSet);
+                    sortPrintLaptop(filters, laptopSet, laptopResult);
+                    System.out.println(" ");
+                    break;
+                case 0:
+                    return;
                 default:
                     break;
             }
         }
+    }
 
+    public static void sortPrintLaptop(Map<Integer, Object> filters, Set<Laptop> laptopSet, Set<Laptop> laptopResult) {
         if (filters.isEmpty()) {
             System.out.println("Вы не ввели ни одного критерия поиска, предлагаем весь ассортимент:");
-            System.out.println(laptopSet);
+            System.out.println(laptopResult);
         } else {
             for (Laptop laptop : laptopSet) {
                 for (Map.Entry<Integer, Object> entry : filters.entrySet()) {
                     switch (entry.getKey()) {
                         case 1:
-                            if (laptop.getRam() >= (int) entry.getValue()) {
-                                laptopResult.add(String.valueOf(laptop));
+                            if (laptop.getRam() < (int) entry.getValue()) {
+                                laptopResult.remove(laptop);
                             }
                             break;
                         case 2:
-                            if (laptop.getMemoryHD() >= (int) entry.getValue()) {
-                                laptopResult.add(String.valueOf(laptop));
+                            if (laptop.getMemoryHD() < (int) entry.getValue()) {
+                                laptopResult.remove(laptop);
                             }
                             break;
                         case 3:
-                            if (laptop.getOS().equals(entry.getValue())) {
-                                laptopResult.add(String.valueOf(laptop));
+                            if (!laptop.getOS().equals(entry.getValue())) {
+                                laptopResult.remove(laptop);
                             }
                             break;
                         case 4:
-                            if (laptop.getColor().equals(entry.getValue())) {
-                                laptopResult.add(String.valueOf(laptop));
+                            if (!laptop.getColor().equals(entry.getValue())) {
+                                laptopResult.remove(laptop);
                             }
                             break;
                     }
@@ -111,3 +120,5 @@ public class StoreLaptop{
         }
     }
 }
+
+

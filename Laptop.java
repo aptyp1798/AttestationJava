@@ -44,7 +44,7 @@ public class Laptop {
 
     @Override
     public String toString() {
-        return "Laptop{" +
+        return "Ноутбук {" +
                 "Оперативная память=" + ram +
                 ", память HDD=" + memoryHD +
                 ", операционная система='" + OS + '\'' +
