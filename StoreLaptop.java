@@ -41,6 +41,7 @@ public class StoreLaptop{
             }
 
             int num = sc.nextInt();
+            sc.nextLine();
 
             if (num == 0) {
                 check = false;
@@ -63,7 +64,7 @@ public class StoreLaptop{
                     filters.put(3, filterOS);
                     break;
                 case 4:
-                    System.out.println("Введите желаемый цвет ноутбука");
+                    System.out.println("Введите желаемый цвет ноутбука:");
                     String filterColor = sc.nextLine();
                     filters.put(4, filterColor);
                     break;
@@ -77,22 +78,35 @@ public class StoreLaptop{
             System.out.println(laptopSet);
         } else {
             for (Laptop laptop : laptopSet) {
-                switch () {
-                    case 1:
-                        if (laptopSet.contains(entry.getValue())) {
-
-                        }
-                        break;
-                    case 2:
-
-                        break;
-                    case 3:
-
-                        break;
-                    case 4:
-
-                        break;
+                for (Map.Entry<Integer, Object> entry : filters.entrySet()) {
+                    switch (entry.getKey()) {
+                        case 1:
+                            if (laptop.getRam() >= (int) entry.getValue()) {
+                                laptopResult.add(String.valueOf(laptop));
+                            }
+                            break;
+                        case 2:
+                            if (laptop.getMemoryHD() >= (int) entry.getValue()) {
+                                laptopResult.add(String.valueOf(laptop));
+                            }
+                            break;
+                        case 3:
+                            if (laptop.getOS().equals(entry.getValue())) {
+                                laptopResult.add(String.valueOf(laptop));
+                            }
+                            break;
+                        case 4:
+                            if (laptop.getColor().equals(entry.getValue())) {
+                                laptopResult.add(String.valueOf(laptop));
+                            }
+                            break;
+                    }
                 }
+            }
+            if (laptopResult.isEmpty()) {
+                System.out.println("По выбранным вами критериям подходящих ноутбуков не найдено!");
+            } else {
+                System.out.println("Список ноутбуков подходящие вашим критериям: " + laptopResult);
             }
         }
     }
